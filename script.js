@@ -16,17 +16,17 @@ let heartInterval = null;
 
 const images = [
     "images/download.gif",
-    "images/download (1).gif",
-    "images/Couple Love Sticker by ACHTUNG - Find & Share on GIPHY.gif",
+    "images/download(1).gif",
+    "images/StickeACHTUNGFind&hareonGIPHY.gif",
     "images/download.gif",
-    "images/download (1).gif",
-    "images/Couple Love Sticker by ACHTUNG - Find & Share on GIPHY.gif",
+    "images/download(1).gif",
+    "images/StickeACHTUNGFind&hareonGIPHY.gif",
     "images/download.gif",
-    "images/download (1).gif",
-    "images/Couple Love Sticker by ACHTUNG - Find & Share on GIPHY.gif",
+    "images/download(1).gif",
+    "images/StickeACHTUNGFind&hareonGIPHY.gif",
     "images/download.gif",
-    "images/download (1).gif",
-    "images/Couple Love Sticker by ACHTUNG - Find & Share on GIPHY.gif"
+    "images/download(1).gif",
+    "images/StickeACHTUNGFind&hareonGIPHY.gif"
 ];
 
 openLetter.addEventListener("click", function(event) {
