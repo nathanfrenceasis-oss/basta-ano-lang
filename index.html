@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Music</title>
+
+    <style>
+
+        body {
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+
+            background:
+        radial-gradient(circle at 50% 20%, rgba(0, 100, 70, 0.5), transparent 40%),
+        linear-gradient(135deg, #001a13, #003d2b, #00140f);
+   
+        }
+
+.album {
+    box-sizing: border-box;
+    width: 300px;
+    padding: 15px;
+    border: 4px solid rgb(100, 153, 100);
+    background: #1b6b4a;
+    border-radius: 15px;
+    text-align: center;
+
+    box-shadow: 0 0 25px rgba(0, 255, 150, 0.25);
+
+    position: fixed;
+    bottom: 0px;
+    left: 80px;
+
+    transform: rotate(-8deg) scale(0.5);
+
+    z-index: 5;
+    transition: transform 0.3s ease;
+}
+
+.album:hover {
+    transform: rotate(-8deg) scale(0.55);
+}
+.album-cover {
+    width: 270px;
+    height: 270px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.music-player {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.time {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    font-size: 14px;
+}
+
+#progress {
+    flex: 1;
+    cursor: pointer;
+}
+
+.music-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    margin-top: 10px;
+}
+
+.music-buttons button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 22px;
+}
+
+#playbutton {
+    background: none;
+    font-size: 32px;
+    margin: 0;
+}
+
+         #playbutton {
+            background-color: #1b6b4a;
+            color: white;
+            font-size: 30px;
+            margin: 20px auto;
+            display: block;
+            border: none;
+            cursor: pointer;
+        }
+
+
+     .flying-image {
+    position: fixed;
+    width: 200px !important;
+    height: 200px !important;
+    object-fit: contain;
+    border-radius: 10px;
+
+    pointer-events: none;
+
+    z-index: 9999;
+
+    --move-x: 0px;
+    --move-y: 0px;
+
+    animation: imageFly 5s ease-in-out forwards;
+}
+
+        @keyframes imageFly {
+
+            0% {
+                opacity: 0;
+                transform: translate(0, 0) scale(0.2);
+            }
+
+            25% {
+                opacity: 1;
+                transform: translate(
+                    calc(var(--move-x) * 0.25),
+                    calc(var(--move-y) * 0.25)
+                ) scale(0.6);
+            }
+
+            50% {
+                opacity: 0.9;
+                transform: translate(
+                    calc(var(--move-x) * 0.5),
+                    calc(var(--move-y) * 0.5)
+                ) scale(1);
+            }
+
+            75% {
+                opacity: 0.5;
+                transform: translate(
+                    calc(var(--move-x) * 0.75),
+                    calc(var(--move-y) * 0.75)
+                ) scale(0.8);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(
+                    var(--move-x),
+                    var(--move-y)
+                ) scale(0.4);
+            }
+
+        }
+
+.envelope {
+    font-size: 90px;
+
+    transition: 0.4s ease;
+}
+
+.letter-box {
+    width: calc(100% - 40px);
+    max-width: 280px;
+    height: 220px;
+    box-sizing: border-box;
+
+    left: 50%;
+    top: 30%;
+
+    background-color: #f8eee0;
+    border: 3px solid #c9a66b;
+    border-radius: 15px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    position: fixed;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+
+
+.letter-box:hover {
+    transform: translateX(-50%) scale(1.05);
+}
+
+#openLetter {
+    padding: 12px 25px;
+    background-color: #8b4a52;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+
+
+.letter {
+    background: #fffaf0;
+    width: 300px;
+    padding: 25px;
+    border-radius: 10px;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%) scale(0.8);
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition:
+        opacity 0.5s ease,
+        transform 0.5s ease;
+
+    z-index: 10;
+}
+
+.letter.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: auto;
+}
+
+.heart {
+    position: fixed;
+    bottom: -30px;
+    font-size: 25px;
+    pointer-events: none;
+    z-index: 10000;
+    color: red;
+    animation: floatHeart 5s linear forwards;
+}
+
+@keyframes floatHeart {
+
+    0% {
+        transform: translateY(0) scale(0.5);
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-110vh) scale(1.2);
+        opacity: 0;
+    }
+
+}
+
+.music-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    margin-top: 10px;
+}
+
+.play-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.visualizer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    height: 35px;
+}
+
+.visualizer span {
+    width: 4px;
+    height: 8px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+
+.visualizer.playing span {
+    animation: musicBar 0.6s ease-in-out infinite alternate;
+}
+
+.visualizer.playing span:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.visualizer.playing span:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.visualizer.playing span:nth-child(4) {
+    animation-delay: 0.3s;
+}
+
+.visualizer.playing span:nth-child(5) {
+    animation-delay: 0.2s;
+}
+
+.visualizer.playing span:nth-child(6) {
+    animation-delay: 0.1s;
+}
+
+@keyframes musicBar {
+    from {
+        height: 8px;
+    }
+
+    to {
+        height: 30px;
+    }
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+}
+
+.letter-decoration {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.letter-decoration span {
+    color: #c9a66b;
+    font-size: 18px;
+}
+
+.letter-decoration .letter-heart {
+    color: #1b6b4a;
+    font-size: 32px;
+}
+
+@media (max-width: 600px) {
+
+
+    .album {
+        box-sizing: border-box;
+        width: 200px;
+        padding: 10px;
+        border: 4px solid rgb(100, 153, 100);
+
+        left: 10px;
+        bottom: -45px;
+
+        transform: rotate(-10deg) scale(0.8);
+
+        z-index: 5;
+        transition: transform 0.3s ease;
+    }
+
+    .album:hover {
+        transform: rotate(-10deg) scale(0.85);
+    }
+
+    .album-cover {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1;
+        object-fit: cover;
+    }
+
+    .album h2 {
+        font-size: 16px;
+        margin: 8px 0;
+    }
+
+    .album h3 {
+        font-size: 13px;
+        margin: 5px 0;
+    }
+
+    .music-player {
+        margin-top: 8px;
+    }
+
+    .music-buttons {
+        gap: 12px;
+    }
+
+
+  .letter-box {
+    width: calc(100% - 40px);
+    max-width: 280px;
+    height: 220px;
+    box-sizing: border-box;
+
+    top: 40%;
+    bottom: auto;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+ 
+.letter-box:hover {
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+
+    .letter {
+        width: calc(100% - 40px);
+        max-height: 80vh;
+        overflow-y: auto;
+        box-sizing: border-box;
+    }
+
+  .music-player {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .time {
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    #progress {
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    .time span {
+        font-size: 11px;
+        white-space: nowrap;
+    }
+
+}
+
+.shooting-stars {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.shooting-stars span {
+    position: absolute;
+    width: 120px;
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        white
+    );
+    transform: rotate(-35deg);
+    animation: shootingStar 3s linear infinite;
+}
+
+@keyframes shootingStar {
+
+    0% {
+        transform: translate(0, 0) rotate(-35deg);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-500px, 500px) rotate(-35deg);
+        opacity: 0;
+    }
+
+}
+
+.shooting-stars span:nth-child(1) {
+    top: 20%;
+    left: 80%;
+}
+
+.shooting-stars span:nth-child(2) {
+    top: 40%;
+    left: 60%;
+    animation-delay: 1.5s;
+}
+
+.shooting-stars span:nth-child(3) {
+    top: 10%;
+    left: 50%;
+    animation-delay: 2.5s;
+}
+
+.stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.stars span {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 8px white;
+}
+
+.stars span:nth-child(1) {
+    top: 10%;
+    left: 20%;
+}
+
+.stars span:nth-child(2) {
+    top: 25%;
+    left: 70%;
+}
+
+.stars span:nth-child(3) {
+    top: 15%;
+    left: 90%;
+}
+
+.stars span:nth-child(4) {
+    top: 40%;
+    left: 30%;
+}
+
+.stars span:nth-child(5) {
+    top: 55%;
+    left: 80%;
+}
+
+.stars span:nth-child(6) {
+    top: 70%;
+    left: 15%;
+}
+
+.stars span:nth-child(7) {
+    top: 85%;
+    left: 60%;
+}
+
+.stars span:nth-child(8) {
+    top: 35%;
+    left: 50%;
+}
+
+.stars span:nth-child(9) {
+    top: 75%;
+    left: 90%;
+}
+
+.stars span:nth-child(10) {
+    top: 60%;
+    left: 45%;
+}
+
+.stars span:nth-child(11) {
+    top: 90%;
+    left: 30%;
+}
+
+.stars span:nth-child(12) {
+    top: 5%;
+    left: 55%;
+}
+
+.stars span:nth-child(2),
+.stars span:nth-child(5),
+.stars span:nth-child(8) {
+    width: 2px;
+    height: 2px;
+}
+
+.stars span:nth-child(3),
+.stars span:nth-child(9) {
+    width: 4px;
+    height: 4px;
+}
+
+.stars span {
+    animation: twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle {
+    from {
+        opacity: 0.3;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.fireflies {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.fireflies span:nth-child(1) {
+    left: 15%;
+    top: 70%;
+}
+
+.fireflies span:nth-child(2) {
+    left: 30%;
+    top: 50%;
+    animation-delay: 1s;
+}
+
+.fireflies span:nth-child(3) {
+    left: 45%;
+    top: 80%;
+    animation-delay: 2s;
+}
+
+.fireflies span:nth-child(4) {
+    left: 60%;
+    top: 65%;
+    animation-delay: 0.5s;
+}
+
+.fireflies span:nth-child(5) {
+    left: 75%;
+    top: 45%;
+    animation-delay: 1.5s;
+}
+
+.fireflies span:nth-child(6) {
+    left: 85%;
+    top: 75%;
+    animation-delay: 2.5s;
+}
+
+.fireflies span:nth-child(7) {
+    left: 20%;
+    top: 35%;
+    animation-delay: 3s;
+}
+
+.fireflies span:nth-child(8) {
+    left: 90%;
+    top: 30%;
+    animation-delay: 1s;
+}
+
+@keyframes firefly {
+    0% {
+        transform: translate(0, 0);
+        opacity: 0.2;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(40px, -30px);
+        opacity: 0.3;
+    }
+}
+
+.fireflies span {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: #b8ffcc;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #7affaa;
+    animation: firefly 4s ease-in-out infinite alternate;
+}
+
+    </style>
+</head>
+
+<body>
+
+    <div class="stars">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<div class="fireflies">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+    <div class="album">
+
+        <img
+            class="album-cover"
+            src="images/My fav.jpg"
+        >
+
+        <h2>Libung-Libong Buwan (Uuwian)</h2>
+
+        <h3>Kyle Raphael</h3>
+
+   
+
+    <div class="music-player">
+
+    <div class="time">
+        <span id="currentTime">0:00</span>
+
+        <input type="range" id="progress" value="0">
+
+        <span id="duration">0:00</span>
+    </div>
+
+ <div class="music-buttons">
+
+    <button id="prevButton">⏮</button>
+
+    <div class="play-area">
+
+        <div class="visualizer" id="visualizer">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <button id="playbutton">▶</button>
+
+    </div>
+
+    <button id="nextButton">⏭</button>
+
+</div>
+   </div>
+
+  
+
+   <audio id="music">
+    <source src="music/libung libong buwan.mp3">
+</audio>
+
+    </div>
+
+<div class="letter-box">
+
+     <div class="letter-decoration">
+        <span>──</span>
+        <span class="letter-heart">♥</span>
+        <span>──</span>
+    </div>
+
+    <button id="openLetter">Open Letter</button>
+
+</div>
+
+<div class="letter" id="letter">
+
+
+    <p>
+      <strong> HII, Rayy</strong> 
+    </p>
+
+    <p>
+       This is short message lang naman to make your day.
+    </p>
+     
+    <p>
+        Since time pass, gusto lang kita pasalamatan sa lahat ng ginawa mo para sakin, kahit na sinabi ko na saiyo na hinde ko laging maibibigay yung mga bagay na gusto mo, tinanggap mo parin ako. And thats means a lot para sa akin, pinakita mo saakin kung gaano ka genuinely na mahalin ako, subrang thankfull ako kasi nagagawa mo kong ipagmalaki kahit hinde ko kayang gawin yun sa sarili ko, i hope maging ikaw at ako sa huli at sana huwag tayong titigil mahalin ang isa't isa. Masasabi ko talagang swerte ako pag dating sayo, kasi napapagaan mo lahat ng bagay, kapag may problema ako ikaw agad yung hinahanap ko, ikaw agad yung gusto kong lapitan kasi ikaw lang naman ang nakaka intindi sakin. Ang dami kong na realise na bagay na makakahanp pala ako ng isang tao na mamahalin ako ng buong buo, na kahit ganto lang ako na ang sarili lang ang kayang ibigay, wag kang matatakot na mag sabi sa akin ng problema mo ha makikinig ako lagi, hinde ka mawawalan ng masasandalan dahil nandito ako.  <strong>Thank you for accepting me, dina kita papakawalann :P
+        </strong>
+    
+    </p>
+<h3>IKAW LANG ANG UUWIAN:)</h3>
+<h4>-natnat mapagmahal77</h4>
+</div>
+
+<div class="shooting-stars">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<div class="hearts"></div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
